@@ -1,0 +1,11 @@
+{
+  "name": "1337Plugin",
+  "author": "Anonymoose",
+  "version": "1.3.3.7",
+  "description": "Nothing sketchy here",
+  "permissions": [
+    "kratecms.users.delete",
+    "kratecms.pages.delete",
+    "kratecms.plugins.disable"
+  ]
+}

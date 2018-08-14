@@ -1,0 +1,10 @@
+{
+  "name": "ExamplePlugin",
+  "author": "The KrateCMS Team",
+  "version": "1.0.0",
+  "description": "The KrateCMS example plugin.",
+  "permissions": [
+    "kratecms.pages.scripts.append"
+  ],
+  "test": false
+}

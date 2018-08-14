@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "ES6",
+    "lib": ["ES2015"],
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "paths": {
+      "kratecms": [ "./src/KrateCMS" ],
+      "kratecms/events": [ "./src/KrateCMS/events" ],
+      "kratecms/interfaces": [ "./src/KrateCMS/interfaces" ],
+      "kratecms/render-engines": [ "./src/KrateCMS/render-engines" ],
+      "kratecms/pages": [ "./src/KrateCMS/pages" ],
+      "kratecms/utils": [ "./src/KrateCMS/utils" ],
+      "*": [
+        "node_modules/*"
+      ]
+    },
+    "baseUrl": "."
+  },
+  "typeDefs": ["./node_modules/@types"],
+  "include": [
+    "node_modules/**/*"
+  ]
+}
