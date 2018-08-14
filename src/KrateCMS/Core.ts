@@ -12,9 +12,10 @@ class Core {
 
   public join = path.join; // Purely to save additional imports
 
-  constructor() {
+  constructor(registerWatcher: boolean = true) {
     this.CONFIG = Core.getConfig();
-    this.watch();
+
+    if(registerWatcher) this.watch();
   }
 
   public async serve(webDir: string, port: number = 3000): Promise<void> {
@@ -70,4 +71,4 @@ class Core {
 
 }
 
-export default new Core();
+export default new Core(process.env.JEST ? false : true);
