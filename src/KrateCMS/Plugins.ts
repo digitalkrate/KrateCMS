@@ -5,16 +5,16 @@ import { PluginManifest } from 'kratecms/interfaces';
 
 export default class Plugins {
 
-  static PLUGINS_DIR = Core.join(Core.get('webDir'), 'plugins');
-
   public static async getPlugins(): Promise<Array<PluginManifest>> {
+    const PLUGINS_DIR = Core.join(Core.get('webDir'), 'plugins');
+
     return new Promise<Array<PluginManifest>>(async(resolve, reject) => {
-      fs.readdir(Plugins.PLUGINS_DIR, (err, files) => {
+      fs.readdir(PLUGINS_DIR, (err, files) => {
         if(!files) return resolve([]);
 
         let plugins: Array<PluginManifest> = [];
         files.forEach(file => {
-          const pluginPath = Core.join(Plugins.PLUGINS_DIR, file);
+          const pluginPath = Core.join(PLUGINS_DIR, file);
           const manifestPath = Core.join(pluginPath, 'manifest.json');
           if(fs.existsSync(manifestPath)) {
             const contents = fs.readFileSync(manifestPath).toString('utf-8');
@@ -38,11 +38,12 @@ export default class Plugins {
   }
 
   public static getPluginsSync(): Array<PluginManifest> {
-    const files = fs.readdirSync(Plugins.PLUGINS_DIR);
+    const PLUGINS_DIR = Core.join(Core.get('webDir'), 'plugins');
+    const files = fs.readdirSync(PLUGINS_DIR);
     let plugins: Array<PluginManifest> = [];
 
     files.forEach(file => {
-      const pluginPath = Core.join(Plugins.PLUGINS_DIR, file);
+      const pluginPath = Core.join(PLUGINS_DIR, file);
       const manifestPath = Core.join(pluginPath, 'manifest.json');
       if(fs.existsSync(manifestPath)) {
         const contents = fs.readFileSync(manifestPath).toString('utf-8');

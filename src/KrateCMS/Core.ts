@@ -63,7 +63,11 @@ class Core {
 
   private getConfig(): any {
     if(fs.existsSync(this.CONFIG_FILE)) {
-      return JSON.parse(fs.readFileSync(this.CONFIG_FILE).toString('utf-8') || '') || null;
+      const contents = fs.readFileSync(this.CONFIG_FILE).toString('utf-8');
+
+      if(!contents) return null;
+
+      return JSON.parse(contents) || null;
     } else {
       this.saveConfig(this.DEFAULT_CONFIG);
 
