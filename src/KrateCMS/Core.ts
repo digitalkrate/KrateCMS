@@ -1,4 +1,5 @@
 import express from 'express';
+import callsite from 'callsite';
 import path from 'path';
 import fs from 'fs';
 
@@ -6,31 +7,35 @@ import { Router } from 'kratecms';
 
 class Core {
 
+  public static instance = new Core();
+
+  private DEFAULT_CONFIG: any = {
+    coreDir: __dirname,
+    webDir: '',
+    currentTheme: 'Krate2018'
+  };
   private CONFIG: any = {};
 
-  private static CONFIG_FILE = path.join(__dirname, 'config.json');
+  private CONFIG_FILE = path.join(__dirname, 'config.json');
 
   public join = path.join; // Purely to save additional imports
 
   constructor(registerWatcher: boolean = true) {
-    this.CONFIG = Core.getConfig();
+    console.log('CORE CONSTRUCT');
+    this.CONFIG = this.getConfig();
+    // this.CONFIG.webDir = path.dirname(callsite()[1].getFileName());
+    this.CONFIG.coreDir = __dirname;
+    // this.saveConfig(this.CONFIG);
 
     if(registerWatcher) this.watch();
   }
 
   public async serve(webDir: string, port: number = 3000): Promise<void> {
     return new Promise<void>(async resolve => {
-      await this.saveConfig({
-        webDir: webDir,
-        coreDir: __dirname,
-        currentTheme: 'Krate2018'
-      });
-
       const app = express(); // TODO: Use standard HTTP instead of Express?
 
-      // Setup
-      app.set('views', this.join(this.get('webDir'), 'themes')); // TODO: Needed?
-      app.set('view engine', 'pug'); // TODO: Needed?
+      this.CONFIG.webDir = webDir;
+      this.saveConfig(this.CONFIG);
 
       // Middleware
       app.use(Router);
@@ -48,7 +53,7 @@ class Core {
 
   private async saveConfig(config: any): Promise<Error|void> {
     return new Promise<Error|void>((resolve, reject) => {
-      fs.writeFile(this.join(Core.CONFIG_FILE), JSON.stringify(config), 'utf-8', err => {
+      fs.writeFile(this.join(this.CONFIG_FILE), JSON.stringify(config), 'utf-8', err => {
         if(err) return reject(err);
 
         resolve();
@@ -56,19 +61,26 @@ class Core {
     });
   }
 
-  private static getConfig(): any {
-    return JSON.parse(fs.readFileSync(Core.CONFIG_FILE).toString('utf-8') || '') || null;
+  private getConfig(): any {
+    if(fs.existsSync(this.CONFIG_FILE)) {
+      return JSON.parse(fs.readFileSync(this.CONFIG_FILE).toString('utf-8') || '') || null;
+    } else {
+      this.saveConfig(this.DEFAULT_CONFIG);
+
+      return this.DEFAULT_CONFIG;
+    }
   }
 
   private watch() {
     const that = this;
-    fs.watch(Core.CONFIG_FILE, (eventType, filename) => {
-      fs.readFile(Core.CONFIG_FILE, function(err, data) {
-        that.CONFIG = Core.getConfig();
+    fs.watch(this.CONFIG_FILE, (eventType, filename) => {
+      fs.readFile(this.CONFIG_FILE, function(err, data) {
+        that.CONFIG = that.getConfig();
       });
     });
   }
 
 }
 
-export default new Core(process.env.JEST ? false : true);
+// export default new Core(process.env.JEST ? false : true);
+export default Core.instance;
