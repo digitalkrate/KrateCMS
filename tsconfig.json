@@ -9,15 +9,12 @@
     "sourceMap": true,
     "outDir": "dist",
     "paths": {
-      "kratecms": [ "./src/KrateCMS" ],
       "kratecms/events": [ "./src/KrateCMS/events" ],
+      "kratecms": [ "./src/KrateCMS" ],
       "kratecms/interfaces": [ "./src/KrateCMS/interfaces" ],
       "kratecms/render-engines": [ "./src/KrateCMS/render-engines" ],
       "kratecms/pages": [ "./src/KrateCMS/pages" ],
-      "kratecms/utils": [ "./src/KrateCMS/utils" ],
-      "*": [
-        "node_modules/*"
-      ]
+      "kratecms/utils": [ "./src/KrateCMS/utils" ]
     },
     "baseUrl": "."
   },

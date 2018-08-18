@@ -18,8 +18,5 @@ module.exports = {
 		'**/test/**/*.test.(ts|js)'
 	],
 	testEnvironment: 'node',
-  moduleNameMapper: {
-    "kratecms": "<rootDir>/src/KrateCMS",
-    "kratecms/(.*)": "<rootDir>/src/KrateCMS/$1"
-  }
+  moduleNameMapper
 };
