@@ -4,8 +4,9 @@ import path from 'path';
 import fs from 'fs';
 
 import { Router } from 'kratecms';
+import { EventEmitter } from 'kratecms/events';
 
-class Core {
+class Core extends EventEmitter {
 
   public static instance = new Core();
 
@@ -20,14 +21,18 @@ class Core {
 
   public join = path.join; // Purely to save additional imports
 
-  constructor(registerWatcher: boolean = true) {
-    console.log('CORE CONSTRUCT');
-    this.CONFIG = this.getConfig();
-    // this.CONFIG.webDir = path.dirname(callsite()[1].getFileName());
-    this.CONFIG.coreDir = __dirname;
-    // this.saveConfig(this.CONFIG);
+  constructor() {
+    super();
 
-    if(registerWatcher) this.watch();
+    this.init();
+  }
+
+  private async init() {
+    this.CONFIG = await this.getConfig() || this.DEFAULT_CONFIG;
+    this.CONFIG.coreDir = __dirname;
+    await this.saveConfig(this.CONFIG);
+
+    this.emit('loaded');
   }
 
   public async serve(webDir: string, port: number = 3000): Promise<void> {
@@ -35,7 +40,7 @@ class Core {
       const app = express(); // TODO: Use standard HTTP instead of Express?
 
       this.CONFIG.webDir = webDir;
-      this.saveConfig(this.CONFIG);
+      await this.saveConfig(this.CONFIG);
 
       // Middleware
       app.use(Router);
@@ -61,26 +66,19 @@ class Core {
     });
   }
 
-  private getConfig(): any {
-    if(fs.existsSync(this.CONFIG_FILE)) {
-      const contents = fs.readFileSync(this.CONFIG_FILE).toString('utf-8');
+  private async getConfig(): Promise<object> {
+    return new Promise<object>(async(resolve, reject) => {
+      if(fs.existsSync(this.CONFIG_FILE)) {
+        const contents = fs.readFileSync(this.CONFIG_FILE).toString('utf-8');
 
-      if(!contents) return null;
+        if(!contents) return null;
 
-      return JSON.parse(contents) || null;
-    } else {
-      this.saveConfig(this.DEFAULT_CONFIG);
+        resolve(JSON.parse(contents) || null);
+      } else {
+        await this.saveConfig(this.DEFAULT_CONFIG);
 
-      return this.DEFAULT_CONFIG;
-    }
-  }
-
-  private watch() {
-    const that = this;
-    fs.watch(this.CONFIG_FILE, (eventType, filename) => {
-      fs.readFile(this.CONFIG_FILE, function(err, data) {
-        that.CONFIG = that.getConfig();
-      });
+        resolve(this.DEFAULT_CONFIG);
+      }
     });
   }
 

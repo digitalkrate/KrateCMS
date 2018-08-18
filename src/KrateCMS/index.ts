@@ -1,6 +1,3 @@
-import callsite from 'callsite';
-console.log(callsite()[1].getFileName());
-
 import Core from './Core';
 
 import RenderEngine from './RenderEngine';
