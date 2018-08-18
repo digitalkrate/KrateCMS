@@ -4,12 +4,11 @@ console.log(callsite()[1].getFileName());
 import Core from './Core';
 
 import RenderEngine from './RenderEngine';
-// import Plugin from './Plugin';
-// import Plugins from './Plugins';
+import Plugin from './Plugin';
+import Plugins from './Plugins';
 import Router from './Router';
-// import Response from './Response';
+import Response from './Response';
 //
 export {
-  // Core, RenderEngine, Plugin, Plugins, Router, Response
-  Core, Router, RenderEngine
+  Core, Response, RenderEngine, Plugin, Plugins, Router
 };
