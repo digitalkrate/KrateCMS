@@ -38,7 +38,7 @@ export default class Page {
   }
 
   protected page(page: string): string {
-    let joinArgs = [Core.get('webDir'), 'themes', Core.get('currentTheme')];
+    let joinArgs = [Core.get('webDir'), 'themes', Core.get('currentTheme'), 'views'];
 
     if(this.type === 'admin') joinArgs.push('admin');
 
