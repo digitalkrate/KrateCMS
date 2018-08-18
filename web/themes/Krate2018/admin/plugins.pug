@@ -3,7 +3,7 @@ div(styles="display: table;")
     div(style="display: table-cell; padding: 10px;")
       div(style=(plugin.enabled ? "border: 3px solid green;" : "border: 3px solid red;") + " position: relative; padding: 20px 30px; height: 100%;")
         h2(style="margin: 0;")= plugin.name
-        p(style="color: gray; margin: 0;") By !{plugin.author}
+        p(style="color: gray; margin: 0;") Author:  !{plugin.author}
         p= plugin.description
         span(style="position: absolute; top: 20px; right: 15px;")= plugin.version
         ul

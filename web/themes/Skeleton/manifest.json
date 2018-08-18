@@ -1,0 +1,26 @@
+{
+  "name": "Skeleton",
+  "description": "A skeleton theme to get you started in developing your own.",
+  "author": "The KrateCMS team",
+  "version": "1.0.0",
+  "assets": {
+    "thumbnail": "thumbnail.png",
+    "views": {
+      "_base": "views/",
+      "admin": "admin/"
+    },
+    "styles": {
+      "_base": "css/",
+      "bootstrap": "bootstrap-4-0-0/bootstrap.min.css"
+    },
+    "scripts": {
+      "_base": "js/",
+      "jquery": "jquery-3-2-1/jquery-3.2.1.slim.min.js",
+      "popper": "bootstrap-4-0-0/popper.min.js",
+      "bootstrap": "bootstrap-4-0-0/bootstrap.min.js"
+    },
+    "images": {
+      "_base": "images/"
+    }
+  }
+}
