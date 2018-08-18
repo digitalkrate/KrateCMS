@@ -71,7 +71,7 @@ class Core extends EventEmitter {
       if(fs.existsSync(this.CONFIG_FILE)) {
         const contents = fs.readFileSync(this.CONFIG_FILE).toString('utf-8');
 
-        if(!contents) return null;
+        if(!contents) resolve(null);
 
         resolve(JSON.parse(contents) || null);
       } else {
