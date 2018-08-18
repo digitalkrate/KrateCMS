@@ -13,7 +13,7 @@ class Core extends EventEmitter {
   private DEFAULT_CONFIG: any = {
     coreDir: __dirname,
     webDir: '',
-    currentTheme: 'Krate2018'
+    currentTheme: 'Skeleton'
   };
   private CONFIG: any = {};
 

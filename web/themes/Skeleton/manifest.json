@@ -1,5 +1,5 @@
 {
-  "name": "Krate 2018 Skeleton Theme",
+  "name": "Skeleton",
   "description": "A skeleton theme to get you started in developing your own.",
   "author": "The KrateCMS team",
   "version": "1.0.0",
@@ -20,8 +20,7 @@
       "bootstrap": "bootstrap-4-0-0/bootstrap.min.js"
     },
     "images": {
-      "_base": "images/",
-      "files": []
+      "_base": "images/"
     }
   }
 }
