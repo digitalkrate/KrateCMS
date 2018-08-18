@@ -1,0 +1,12 @@
+div(styles="display: table;")
+  each theme in themes
+    div(style="display: table-cell; padding: 10px;")
+      div(style=(theme.enabled ? "border: 3px solid green;" : "border: 3px solid red;") + " position: relative; padding: 20px 30px; height: 100%;")
+        h2(style="margin: 0;")= theme.name
+        p(style="color: gray; margin: 0;") By !{theme.author}
+        p= theme.description
+        span(style="position: absolute; top: 20px; right: 15px;")= theme.version
+        if theme.enabled
+          button Disable
+        else
+          button Enable

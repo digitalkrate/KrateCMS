@@ -69,11 +69,7 @@ class Core extends EventEmitter {
   private async getConfig(): Promise<object> {
     return new Promise<object>(async(resolve, reject) => {
       if(fs.existsSync(this.CONFIG_FILE)) {
-        const contents = fs.readFileSync(this.CONFIG_FILE).toString('utf-8');
-
-        if(!contents) resolve(null);
-
-        resolve(JSON.parse(contents) || null);
+        resolve(require(this.CONFIG_FILE) || null);
       } else {
         await this.saveConfig(this.DEFAULT_CONFIG);
 
