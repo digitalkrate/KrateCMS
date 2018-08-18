@@ -1,1 +1,3 @@
 node_modules/
+coverage/
+src/KrateCMS/config.json

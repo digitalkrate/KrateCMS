@@ -1,8 +1,8 @@
-import { Router  as _Router, Request, Response } from 'express';
+import { Router as _Router, Request, Response } from 'express';
 
 import * as Pages from 'kratecms/pages';
 
-const Router = new _Router();
+const Router = _Router();
 
 // Routes
 Router.get('/', (req: Request, res: Response) => new Pages.Public.Home(req, res));
