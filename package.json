@@ -7,8 +7,12 @@
     "start": "npm run build:dev",
     "build:dev": "node_modules/.bin/nodemon --config nodemon.json"
   },
-  "author": "",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digitalkrate/KrateCMS.git"
+  },
+  "author": "The DigitalKrate Team",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@babel/core": "^7.0.0-rc.1",
     "@types/express": "^4.16.0",
