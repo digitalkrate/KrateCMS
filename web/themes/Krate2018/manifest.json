@@ -1,4 +1,23 @@
 {
   "name": "Krate2018",
-  "description": "Just the default KrateCMS theme."
+  "description": "Just the default KrateCMS theme.",
+  "author": "The KrateCMS team",
+  "version": "1.2.4",
+  "assets": {
+    "views": {
+      "_base": ".",
+      "admin": "admin/"
+    },
+    "styles": {
+      "_base": "css/",
+      "bootstrap": "bootstrap.min.css"
+    },
+    "scripts": {
+      "_base": "js/",
+      "bootstrap": "bootstrap.min.js"
+    },
+    "images": {
+      "_base": "images/"
+    }
+  }
 }

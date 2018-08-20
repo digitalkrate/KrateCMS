@@ -1,8 +1,9 @@
 import { Request, Response as Response } from 'express';
 
-import { Core, RenderEngine } from 'kratecms';
+import { Core, RenderEngine, Theme } from 'kratecms';
 import { EventEmitter, Pages } from 'kratecms/events';
 import { MetaItem } from 'kratecms/interfaces';
+import { Pug } from 'kratecms/render-engines';
 
 export default class Page {
 
@@ -12,6 +13,8 @@ export default class Page {
 
   // TODO: Make enum{'public'|'admin'}
   protected type: string = 'public';
+  protected theme: Theme;
+  protected view: string;
 
   protected meta: MetaItem[] = [];
 
@@ -25,6 +28,8 @@ export default class Page {
     this.req = req;
     // this.res = new Response(res);
     this.res = res;
+    this.theme = Core.theme();
+    this.engine = new Pug(this.theme);
 
     this.init();
 
@@ -33,14 +38,14 @@ export default class Page {
 
   private async compile(req: Request, res: Response, locals: Object = {}) {
     await this.emitWait('render', this);
-    res.send(this.engine.compile(locals));
+    res.send(this.engine.compile(this.page(this.view), locals));
     this.emit('rendered');
   }
 
   protected page(page: string): string {
-    let joinArgs = [Core.get('webDir'), 'themes', Core.get('currentTheme')];
+    let joinArgs = [Core.get('webDir'), 'themes', this.theme.dirName, this.theme.assets.views._base];
 
-    if(this.type === 'admin') joinArgs.push('admin');
+    if(this.type === 'admin') joinArgs.push(this.theme.assets.views.admin);
 
     return Core.join(...joinArgs, page);
   }
