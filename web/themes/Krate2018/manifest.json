@@ -4,9 +4,8 @@
   "author": "The KrateCMS team",
   "version": "1.2.4",
   "assets": {
-    "thumbnail": "thumb.png",
     "views": {
-      "_base": "views/",
+      "_base": ".",
       "admin": "admin/"
     },
     "styles": {

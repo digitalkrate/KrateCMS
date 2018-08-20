@@ -8,7 +8,7 @@ export default class Themes extends Page {
 
   init() {
     this.type = 'admin';
-    this.engine = new Pug(this.page('themes'));
+    this.view = 'themes';
     this.locals.themes = _Themes.getThemesSync();
   }
 

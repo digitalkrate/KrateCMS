@@ -7,7 +7,7 @@ export default class Dashboard extends Page {
 
   init() {
     this.type = 'admin';
-    this.engine = new Pug(this.page('dashboard'));
+    this.view = 'dashboard';
   }
 
 }

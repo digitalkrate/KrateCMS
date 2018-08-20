@@ -8,7 +8,7 @@ export default class Plugins extends Page {
 
   init() {
     this.type = 'admin';
-    this.engine = new Pug(this.page('plugins'));
+    this.view = 'plugins';
     this.locals.plugins = Plugs.getPluginsSync();
   }
 

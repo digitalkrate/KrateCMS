@@ -1,17 +1,16 @@
-import { Core } from 'kratecms';
+import { Theme } from 'kratecms';
 
-export class RenderEngine {
+export default class RenderEngine {
 
-  protected readonly THEMES_DIR: string = Core.join(Core.get('webDir'), 'themes');
-  protected readonly CURRENT_THEME: string = Core.get('currentTheme');
+  protected locals: any;
 
-  constructor(file: string) { }
+  constructor(theme: Theme) {
+    this.locals = theme.locals || {};
+  }
 
-  public compile(locals: Object): string {
-    // Throw an exception as this class is strictly for use by extension.
-    throw('This RenderEngine lacks a compile() method.');
+  public compile(file: string, locals: Object): string {
+    this.locals = Object.assign({}, this.locals, locals);
+    return '';
   }
 
 }
-
-export default RenderEngine;

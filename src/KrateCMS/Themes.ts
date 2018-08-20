@@ -1,13 +1,14 @@
 import * as fs from 'fs';
+import deepmerge from 'deepmerge';
 
-import { Core } from 'kratecms';
+import { Core, Theme } from 'kratecms';
 import { ThemeManifest } from 'kratecms/interfaces';
 
 export default class Themes {
 
   private static manifestTemplate = {
-    assest: {
-      thumbnail: '',
+    assets: {
+      thumbnail: null,
       views: {
         _base: 'views/',
         admin: 'admin'
@@ -24,31 +25,29 @@ export default class Themes {
     }
   };
 
-  public static async getThemes(): Promise<Array<ThemeManifest>> {
+  // TODO: Remove and rename getThemesSync to getThemes
+  public static async getThemes(): Promise<Theme[]> {
     const THEMES_DIR = Core.join(Core.get('webDir'), 'themes');
 
-    return new Promise<Array<ThemeManifest>>(async(resolve, reject) => {
+    return new Promise<Theme[]>(async(resolve, reject) => {
       fs.readdir(THEMES_DIR, (err, files) => {
         if(!files) return resolve([]);
 
-        let themes: Array<ThemeManifest> = [];
+        let themes: Theme[] = [];
         files.forEach(file => {
           const themePath = Core.join(THEMES_DIR, file);
           const manifestPath = Core.join(themePath, 'manifest.json');
           if(fs.existsSync(manifestPath)) {
-            // const contents = fs.readFileSync(manifestPath).toString('utf-8');
-            // const theme = JSON.parse(contents);
-            const theme = require(manifestPath);
+            const theme = deepmerge(Themes.manifestTemplate, require(manifestPath));
 
             if(!theme || !theme.name || !theme.author || !theme.version || !theme.description) return;
 
-            theme.permissions = theme.permissions || [];
             theme.enabled = theme.name === Core.get('currentTheme');
             theme.urls = {
               enable: '/admin/themes/' + theme.name + '/enable',
               disable: '/admin/themes/' + theme.name + '/disable'
             };
-            themes.push(theme);
+            themes.push(new Theme(theme, file));
           }
         });
 
@@ -57,32 +56,47 @@ export default class Themes {
     });
   }
 
-  public static getThemesSync(): Array<ThemeManifest> {
+  public static getThemesSync(): Theme[] {
     const THEMES_DIR = Core.join(Core.get('webDir'), 'themes');
     const files = fs.readdirSync(THEMES_DIR);
-    let themes: Array<ThemeManifest> = [];
+    let themes: Theme[] = [];
 
     files.forEach(file => {
       const themePath = Core.join(THEMES_DIR, file);
       const manifestPath = Core.join(themePath, 'manifest.json');
       if(fs.existsSync(manifestPath)) {
-        // const contents = fs.readFileSync(manifestPath).toString('utf-8');
-        // const theme = JSON.parse(contents);
-        const theme = require(manifestPath);
+        const theme = deepmerge(Themes.manifestTemplate, require(manifestPath));
 
         if(!theme || !theme.name || !theme.author || !theme.version || !theme.description) return;
 
-        theme.assets = theme.permissions || [];
         theme.enabled = theme.name === Core.get('currentTheme');
         theme.urls = {
           enable: '/admin/themes/' + theme.name + '/enable',
           disable: '/admin/themes/' + theme.name + '/disable'
         };
-        themes.push(theme);
+        themes.push(new Theme(theme, file));
       }
     });
 
     return themes;
+  }
+
+  public static getTheme(dirName: string): Theme {
+    const THEMES_DIR = Core.join(Core.get('webDir'), 'themes');
+    const files = fs.readdirSync(THEMES_DIR);
+
+    const themePath = Core.join(THEMES_DIR, dirName);
+    const manifestPath = Core.join(themePath, 'manifest.json');
+    if(fs.existsSync(manifestPath)) {
+      const theme = deepmerge(Themes.manifestTemplate, require(manifestPath));
+
+      if(!theme || !theme.name || !theme.author || !theme.version || !theme.description) return;
+
+      theme.enabled = theme.name === Core.get('currentTheme');
+      return new Theme(theme, dirName);
+    } else {
+      return null;
+    }
   }
 
 }

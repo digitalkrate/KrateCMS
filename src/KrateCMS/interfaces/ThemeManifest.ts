@@ -4,7 +4,7 @@ export default interface ThemeManifest {
   author: string,
   version: string,
   description: string,
-  assest: {
+  assets: {
     thumbnail?: string,
     views: {
       _base: string,
@@ -19,5 +19,6 @@ export default interface ThemeManifest {
     images: {
       _base: string
     }
-  }
+  },
+  enabled: boolean
 }
