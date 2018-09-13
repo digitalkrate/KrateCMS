@@ -17,13 +17,13 @@
 		],
 		"baseUrl": ".",
 		"paths": {
-			"kratecms": ["src/KrateCMS"],
 			"kratecms/events": ["src/KrateCMS/events"],
 			"kratecms/databases": ["src/KrateCMS/databases"],
 			"kratecms/interfaces": ["src/KrateCMS/interfaces"],
 			"kratecms/render-engines": ["src/KrateCMS/render-engines"],
 			"kratecms/pages": ["src/KrateCMS/pages"],
-			"kratecms/utils": ["src/KrateCMS/utils"]
+			"kratecms/utils": ["src/KrateCMS/utils"],
+			"kratecms": ["src/KrateCMS"]
 		}
 	},
 	"include": [
