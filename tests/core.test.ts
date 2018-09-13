@@ -1,14 +1,21 @@
-import assert from 'assert';
-import path from 'path';
+import assert from "assert";
+import path from "path";
 
-import { Core } from 'kratecms';
-const coreDir = path.join(__dirname, '..', 'src', 'KrateCMS');
+import { Core } from "kratecms";
+const coreDir = path.join(__dirname, "..", "src", "KrateCMS");
 
-describe('Core', function() {
-  describe('#get(\'coreDir\')', function() {
-    it('should equal ' + coreDir, function() {
-      Core.on('loaded', () => {
-        assert.equal(Core.get('coreDir'), coreDir);
+describe("Core", () => {
+  describe("#path('core')", () => {
+    it("should equal '" + coreDir + "'", () => {
+      Core.on("loaded", () => {
+        assert.equal(Core.path("core"), coreDir);
+      });
+    });
+  });
+  describe("#setting('currentTheme')", () => {
+    it("should equal 'Krate2018'", () => {
+      Core.on("loaded", () => {
+        assert.equal(Core.setting("currentTheme"), "Krate2018");
       });
     });
   });
