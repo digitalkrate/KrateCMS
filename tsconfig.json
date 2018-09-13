@@ -1,25 +1,36 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "ES6",
-    "lib": ["ES2015"],
-    "noImplicitAny": false,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
-    "paths": {
-      "kratecms/events": [ "./src/KrateCMS/events" ],
-      "kratecms": [ "./src/KrateCMS" ],
-      "kratecms/interfaces": [ "./src/KrateCMS/interfaces" ],
-      "kratecms/render-engines": [ "./src/KrateCMS/render-engines" ],
-      "kratecms/pages": [ "./src/KrateCMS/pages" ],
-      "kratecms/utils": [ "./src/KrateCMS/utils" ]
-    },
-    "baseUrl": "."
-  },
-  "typeDefs": ["./node_modules/@types"],
-  "include": [
-    "node_modules/**/*"
+	"compilerOptions": {
+		"module": "commonjs",
+		"esModuleInterop": true,
+		"target": "ES6",
+		"lib": ["es2015"],
+		"noImplicitAny": false,
+		"moduleResolution": "node",
+		"experimentalDecorators": true,
+		"sourceMap": true,
+		"outDir": "dist",
+		"typeRoots": [
+			"./node_modules/@types"
+		],
+		"types": [
+			"node"
+		],
+		"baseUrl": ".",
+		"paths": {
+			"kratecms": ["src/KrateCMS"],
+			"kratecms/events": ["src/KrateCMS/events"],
+			"kratecms/databases": ["src/KrateCMS/databases"],
+			"kratecms/interfaces": ["src/KrateCMS/interfaces"],
+			"kratecms/render-engines": ["src/KrateCMS/render-engines"],
+			"kratecms/pages": ["src/KrateCMS/pages"],
+			"kratecms/utils": ["src/KrateCMS/utils"]
+		}
+	},
+	"include": [
+    "src/**/*.ts"
+	],
+	"exclude": [
+    "node_modules/**/*",
+    "tests/**/*"
   ]
 }

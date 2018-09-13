@@ -1,0 +1,16 @@
+nav.navbar.navbar-expand-lg.grey.lighten-4.black-text
+  a.btn.p-1.btn-flat.button-collapse(href="#" data-activates="slide-out")
+    i.fa.fa-bars
+  
+  block body.header.navbar.breadcrumbs
+    span.navbar-brand.only-big
+      a(href="/") !{site.title}
+      |  / 
+      a(href="/admin") Admin 
+      |  / 
+      each crumb in page.path || []
+        a(href=crumb[1])= crumb[0]
+        |  / 
+      | !{page.title}
+      
+    span.navbar-brand.only-small !{page.title}

@@ -1,0 +1,33 @@
+#editorSidebar.side-nav.fixed.grey.lighten-4
+  ul
+    li
+      a.waves-effect(href="/admin/pages")
+        i.fas.fa-arrow-left.mr-3
+        | Go back
+    li
+      form.search-form(role='search')
+        .form-group.md-form.mt-0
+          input.form-control(type='text', placeholder='Search widgets...')
+    li
+      ul.collapsible.collapsible-accordion
+        li
+          a.collapsible-header.waves-effect.arrow-r
+            | Basic
+            i.fa.fa-angle-down.rotate-icon
+          .collapsible-body
+            .row
+              .col-6.red.p-1
+                h1 Test
+              .col-6.red.p-1
+                h1 Test
+        li
+          a.collapsible-header.waves-effect.arrow-r
+            | Layout
+            i.fa.fa-angle-down.rotate-icon
+          .collapsible-body
+            ul
+              li
+                a.waves-effect(href="/admin/users/new") New User
+              li
+                a.waves-effect(href="/admin/users") Manage Users
+  .sidenav-bg.rgba-blue-strong

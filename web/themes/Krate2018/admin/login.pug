@@ -1,0 +1,50 @@
+extends partials/layout
+
+block append head.styles
+	//link(href="/assets/css/login.css" rel="stylesheet")
+
+block body.main
+	.page.page-login
+		#background
+		.main
+			.container-fluid.v-centered
+				.row
+					.col-md-6.offset-md-1.white-text.mb-5.mb-md-0
+						.v-centered.sm-text-center
+							a.h1.page-title.mb-3(href="https://cms.digitalkrate.com" target="_blank") KrateCMS
+							//h2 The adaptive CMS
+							h3 Please login to manage your website.
+					.col-md-4
+						.card.v-centered#loginCard
+							.card-body
+								form#login
+									.row
+										.col-12
+											input.form-control(type="email" name="email" placeholder="Email Address")
+										.col-12.mt-3
+											input.form-control(type="password" name="password" placeholder="Password")
+										.col-6.mt-3
+											button.btn.btn-flat(type="submit" name="forgotten") Forgotten
+										.col-6.text-right.mt-3
+											button.btn.btn-flat(type="submit" name="login") Login
+
+block append body.scripts
+	//script.
+		const $main = $('body');
+		$('form#login').on('submit', (e) => {
+			e.preventDefault();
+
+			$('#loginCard').animate({
+				opacity: 0
+			});
+			$('#background').addClass('fold');
+			setTimeout(() => {
+				$main.css('opacity', 0);
+				$main.load('/admin?content', function() {
+					$main.animate({
+						opacity: 1
+					});
+					window.history.pushState('', '', '/admin');
+				});
+			}, 1000);
+		});
