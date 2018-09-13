@@ -1,18 +1,17 @@
-import { Request, Response as Response } from 'express';
+import { Request, Response } from "express";
 
-import { Core, RenderEngine, Theme } from 'kratecms';
-import { EventEmitter, Pages } from 'kratecms/events';
-import { MetaItem } from 'kratecms/interfaces';
-import { Pug } from 'kratecms/render-engines';
+import { Core, RenderEngine, Theme } from "kratecms";
+import { EventEmitter, Pages } from "kratecms/events";
+import { MetaItem } from "kratecms/interfaces";
+import { Pug } from "kratecms/render-engines";
 
 export default class Page {
-
   public engine: RenderEngine;
 
   protected locals: any = {};
 
   // TODO: Make enum{'public'|'admin'}
-  protected type: string = 'public';
+  protected type: string = "public";
   protected theme: Theme;
   protected view: string;
 
@@ -21,8 +20,8 @@ export default class Page {
   protected styles: string[] = [];
   protected scripts: string[] = [];
 
-  protected req: Request;
-  protected res: Response;
+  protected req: any;
+  protected res: any;
 
   constructor(req: Request, res: Response) {
     this.req = req;
@@ -31,21 +30,27 @@ export default class Page {
     this.theme = Core.theme();
     this.engine = new Pug(this.theme);
 
-    this.init();
+    const initResponse = this.init();
 
-    this.compile(this.req, this.res, this.locals);
+    if (initResponse === undefined || !!initResponse)
+      this.compile(this.req, this.res, this.locals);
   }
 
   private async compile(req: Request, res: Response, locals: Object = {}) {
-    await this.emitWait('render', this);
+    await this.emitWait("render", this);
     res.send(this.engine.compile(this.page(this.view), locals));
-    this.emit('rendered');
+    this.emit("rendered");
   }
 
   protected page(page: string): string {
-    let joinArgs = [Core.get('webDir'), 'themes', this.theme.dirName, this.theme.assets.views._base];
+    let joinArgs = [
+      Core.path("web"),
+      "themes",
+      this.theme.dirName,
+      this.theme.assets.views._base
+    ];
 
-    if(this.type === 'admin') joinArgs.push(this.theme.assets.views.admin);
+    if (this.type === "admin") joinArgs.push(this.theme.assets.views.admin);
 
     return Core.join(...joinArgs, page);
   }
@@ -53,18 +58,19 @@ export default class Page {
   protected init() {}
 
   protected emit(event: string, ...args: any[]) {
-    if(this.type === 'public') return Pages.Public.emit(event, ...args);
-    else if(this.type === 'admin') return Pages.Admin.emit(event, ...args);
+    if (this.type === "public") return Pages.Public.emit(event, ...args);
+    else if (this.type === "admin") return Pages.Admin.emit(event, ...args);
   }
 
   protected emitWait(event: string, ...args: any[]) {
-    if(this.type === 'public') return Pages.Public.emitWait(event, ...args);
-    else if(this.type === 'admin') return Pages.Admin.emitWait(event, ...args);
+    if (this.type === "public") return Pages.Public.emitWait(event, ...args);
+    else if (this.type === "admin") return Pages.Admin.emitWait(event, ...args);
   }
 
   public addMeta(name: string, content: string): void {
     this.meta.push({
-      name, content
+      name,
+      content
     });
   }
 
@@ -72,7 +78,7 @@ export default class Page {
     return this.meta;
   }
 
-  public getMetaItem(name: string): MetaItem|undefined {
+  public getMetaItem(name: string): MetaItem | undefined {
     return this.meta[name];
   }
 
@@ -83,5 +89,4 @@ export default class Page {
   public addScript(src: string) {
     this.scripts.push(src);
   }
-
 }

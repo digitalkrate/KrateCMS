@@ -1,23 +1,33 @@
 {
-  "name": "Krate2018",
-  "description": "Just the default KrateCMS theme.",
-  "author": "The KrateCMS team",
-  "version": "1.2.4",
-  "assets": {
-    "views": {
-      "_base": ".",
-      "admin": "admin/"
-    },
-    "styles": {
-      "_base": "css/",
-      "bootstrap": "bootstrap.min.css"
-    },
-    "scripts": {
-      "_base": "js/",
-      "bootstrap": "bootstrap.min.js"
-    },
-    "images": {
-      "_base": "images/"
-    }
-  }
+	"name": "Krate2018",
+	"description": "Just the default KrateCMS theme.",
+	"author": "The KrateCMS team",
+	"version": "1.2.4",
+	"assets": {
+		"views": {
+			"_base": ".",
+			"admin": "admin/"
+		},
+		"styles": {
+			"_base": "css/",
+			"bootstrap": "third-party/bootstrap.min.css",
+			"bootstrap_map": "third-party/bootstrap.min.css.map",
+			"mdb": "third-party/mdb.min.css",
+			"admin": "admin.css",
+			"core": "core.css"
+		},
+		"scripts": {
+			"_base": "js/",
+			"jquery": "third-party/jquery.min.js",
+			"popper": "third-party/popper.min.js",
+			"mdb": "third-party/mdb.min.js",
+			"bootstrap": "third-party/bootstrap.min.js",
+			"admin": "admin/admin.js",
+			"setup": "admin/setup.js"
+		},
+		"static": {
+			"img": "images/",
+			"font": "font/"
+		}
+	}
 }

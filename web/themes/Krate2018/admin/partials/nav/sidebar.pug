@@ -1,0 +1,54 @@
+#slide-out.side-nav.fixed.grey.lighten-4
+  ul
+    li
+      //.logo-wrapper.waves-light
+        a(href='#')
+          img.img-fluid.flex-center(src='https://mdbootstrap.com/img/logo/mdb-transparent.png')
+      h1.text-center.mt-4.mb-4 BaseCMS 
+    li
+      form.search-form(role='search')
+        .form-group.md-form.mt-0
+          input.form-control(type='text', placeholder='Search...')
+    li
+      ul.collapsible.collapsible-accordion
+        li
+          a.collapsible-header.waves-effect.arrow-r
+            | Pages
+            i.fa.fa-angle-down.rotate-icon
+          .collapsible-body
+            ul
+              li
+                a.waves-effect(href="/admin/pages/new") New Page
+              li
+                a.waves-effect(href="/admin/pages") Manage Pages
+        li
+          a.collapsible-header.waves-effect.arrow-r
+            | Users
+            i.fa.fa-angle-down.rotate-icon
+          .collapsible-body
+            ul
+              li
+                a.waves-effect(href="/admin/users/new") New User
+              li
+                a.waves-effect(href="/admin/users") Manage Users
+        li
+          a.collapsible-header.waves-effect.arrow-r
+            | Plugins
+            i.fa.fa-angle-down.rotate-icon
+          .collapsible-body
+            ul
+              li
+                a.waves-effect(href="/admin/plugins/install") Install Plugins
+              li
+                a.waves-effect(href="/admin/plugins") Manage Plugins
+        li
+          a.collapsible-header.waves-effect.arrow-r
+            | Themes
+            i.fa.fa-angle-down.rotate-icon
+          .collapsible-body
+            ul
+              li
+                a.waves-effect(href="/admin/themes/install") Install Themes
+              li
+                a.waves-effect(href="/admin/themes") Manage Themes
+  .sidenav-bg.rgba-blue-strong

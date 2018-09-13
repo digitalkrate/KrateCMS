@@ -1,0 +1,63 @@
+extends partials/layout
+
+block body.main
+  .page.page-login
+    #background
+    .main
+      .container-fluid.v-centered
+        .row
+          .col-md-6.offset-md-1.white-text.mb-5.mb-md-0
+            .v-centered.sm-text-center
+              .h1.page-title.mb-3 Welcome to KrateCMS
+              //h2 The adaptive CMS
+              h3.
+                There's a few things to setup before you can get
+                going with your website. This won't take long.
+          .col-md-4.grid
+            .col-md-12.mb-2
+              .card.slim
+                .card-body
+                  h5.card-title Administrator Account
+                  form(data-setup="admin")
+                    .row
+                      .col-12
+                        input.form-control(type="email" name="email" placeholder="Email Address")
+                      .col-6.mt-2
+                        input.form-control(type="password" name="password" placeholder="Password")
+                      .col-6.mt-2
+                        input.form-control(type="password" name="cpassword" placeholder="Confirm")
+            .col-md-12.mb-2
+              .card.slim
+                .card-body
+                  h5.card-title Site Information
+                  form(data-setup="site")
+                    .row
+                      .col-12
+                        input.form-control(type="text" name="title" placeholder="Site Title")
+            .col-md-12.mb-2
+              .card.slim
+                .card-body
+                  h5.card-title Database Configuration
+                  form(data-setup="database")
+                    .row
+                      .col-12
+                        select.custom-select(name="core")
+                          option(value="" selected) Core Database
+                          option(value="mongo") MongoDB
+                          option(value="mysql") MySQL / MariaDB
+                        select.custom-select.mt-2(name="cache")
+                          option(value="" selected) Caching Database
+                          option(value="redis") Redis (recommended)
+                          option(value="none") None (not recommended)
+                          
+            .col-md-12
+              .card.slim
+                .card-body
+                  .row
+                    .col-6
+                      h5.v-centered All done?
+                    .col-6.text-right
+                      button.btn.btn-flat#install Install
+
+block append body.scripts
+  script(src=scripts.setup async defer)

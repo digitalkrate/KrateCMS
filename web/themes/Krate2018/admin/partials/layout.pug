@@ -1,0 +1,20 @@
+doctype html
+html
+	head
+		block head
+			include head
+	body
+		block body
+			block body.header
+				include header
+
+			block body.main
+				main.grey.lighten-2
+					block body.content
+
+			block body.fab
+				if showFAB
+					include nav/fab
+
+			block body.scripts
+				include scripts

@@ -1,0 +1,9 @@
+if showSidebar || showNavbar
+	header
+		block body.header.sidebar
+			if showSidebar
+				include nav/sidebar
+
+		block body.header.navbar
+			if showNavbar
+				include nav/navbar
