@@ -22,6 +22,10 @@ class Core extends EventEmitter {
     super();
 
     this.settings = new Settings(this.join(this.PATHS.core, "settings"));
+    if (!this.settings.get("currentTheme")) {
+      this.settings.set("currentTheme", "Krate2018");
+    }
+
     this.init();
   }
 
