@@ -1,6 +1,5 @@
 import { default as express, Request, Response } from "express";
 import path from "path";
-import fs from "fs";
 
 import { Router, Theme, Themes, Settings } from "kratecms";
 import { EventEmitter } from "kratecms/events";
@@ -27,10 +26,10 @@ class Core extends EventEmitter {
   }
 
   private async init() {
-    const db = await Mongo.connect(this.setting("database"));
-    console.log(await db.getSetting("currentTheme"));
+    // const db = await Mongo.connect(this.setting("database"));
+    // console.log(await db.getSetting("currentTheme"));
 
-    this.emit("loaded");
+    this.emitOnce("loaded");
   }
 
   public async serve(webDir: string, port: number = 3000): Promise<void> {

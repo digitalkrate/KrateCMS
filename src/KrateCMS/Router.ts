@@ -21,6 +21,6 @@ Router.get("/admin/plugins", serve(Pages.Admin.Plugins));
 Router.get("/admin/themes", serve(Pages.Admin.Themes));
 
 // API Routes
-Router.get("/api", Api.test);
+Router.get("/api/setup", Api.setup);
 
 export default Router;
