@@ -1,6 +1,7 @@
 # KrateCMS [![Build Status](https://travis-ci.com/digitalkrate/KrateCMS.svg?branch=master)](https://travis-ci.com/digitalkrate/KrateCMS)
-Description to be confirmed.
+Aims to be a lightning fast and ultra lightweight, fully featured CMS written in Node.js
 
+---
 Copyright 2018 Digital Krate Ltd
 
 Licensed under the Apache License, Version 2.0 (the "License");
