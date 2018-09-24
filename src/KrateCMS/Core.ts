@@ -1,13 +1,15 @@
-import { default as express, Request, Response } from "express";
+// import { default as express, Request, Response } from "express";
 import path from "path";
 
-import { Router, Theme, Themes, Settings } from "kratecms";
+import { routes, Theme, Themes, Settings } from "kratecms";
 import { EventEmitter } from "kratecms/events";
 import { forEachPromise } from "kratecms/utils";
 import { Mongo } from "kratecms/databases";
+import { Router, Request, Response, Server } from "kratecms/server";
 
 class Core extends EventEmitter {
-  private app;
+  private server: Server;
+  private router: Router;
   private settings: Settings;
 
   public static instance = new Core();
@@ -38,125 +40,79 @@ class Core extends EventEmitter {
 
   public async serve(webDir: string, port: number = 3000): Promise<void> {
     return new Promise<void>(async resolve => {
-      this.app = express();
+      this.server = new Server();
+      this.router = new Router(this.server);
 
       this.PATHS.web = webDir;
 
-      // Middleware
-      this.app.use("/static", this.serveStatic());
-      this.app.use((req, res, next) => {
-        req.authenticated = () => {
-          return false;
-        };
+      // // Middleware
+      this.server.use((req: Request, res: Response, next) => {
+        // req.set("authenticated", () => {
+        //   return false;
+        // });
 
-        if (
-          req.url === "/admin/setup" ||
-          req.url.startsWith("/admin/login") ||
-          req.url.startsWith("/api")
-        ) {
-          return next();
-        }
-        res.redirect("/admin/setup");
+        // if (
+        //   req.url === "/admin/setup" ||
+        //   req.url.startsWith("/admin/login") ||
+        //   req.url.startsWith("/api")
+        // ) {
+        //   return next();
+        // }
+        // res.redirect("/admin/setup");
+        next();
       });
-      this.app.use(Router);
+      routes(this.router);
+      this.registerThemePaths();
 
-      this.app.listen(port, () => {
+      this.server.listen(Server.ADDR_ALL, port, () => {
         console.log("KrateCMS listening on 0.0.0.0:%d", port);
         resolve();
       });
     });
   }
 
-  private serveStatic() {
-    const that = this;
-
-    return (req: Request, res: Response, next: Function) => {
-      const theme = that.theme();
-      if (req.url.startsWith("/theme/")) {
-        const resource = req.url.replace("/theme/", "");
-        const parts = resource.split("/");
-        const promises: Promise<void>[] = [];
-        let sent: boolean = false;
-        promises.push(
-          forEachPromise(Object.keys(theme.assets.styles), key => {
-            if (theme.assets.styles[key] === resource) {
-              sent = true;
-              res.sendFile(
-                that.join(
-                  that.path("web"),
-                  "themes",
-                  theme.dirName,
-                  "assets",
-                  theme.assets.styles._base,
-                  theme.assets.styles[key]
-                )
-              );
-            }
-          })
-        );
-        promises.push(
-          forEachPromise(Object.keys(theme.assets.scripts), key => {
-            if (theme.assets.scripts[key] === resource) {
-              sent = true;
-              res.sendFile(
-                that.join(
-                  that.path("web"),
-                  "themes",
-                  theme.dirName,
-                  "assets",
-                  theme.assets.scripts._base,
-                  theme.assets.scripts[key]
-                )
-              );
-            }
-          })
-        );
-        promises.push(
-          forEachPromise(Object.keys(theme.assets.images), key => {
-            if (theme.assets.images[key] === resource) {
-              sent = true;
-              res.sendFile(
-                that.join(
-                  that.path("web"),
-                  "themes",
-                  theme.dirName,
-                  "assets",
-                  theme.assets.images._base,
-                  theme.assets.images[key]
-                )
-              );
-            }
-          })
-        );
-        promises.push(
-          forEachPromise(Object.keys(theme.assets.static), key => {
-            if (key === parts[0]) {
-              sent = true;
-              parts.shift();
-              res.sendFile(
-                that.join(
-                  that.path("web"),
-                  "themes",
-                  theme.dirName,
-                  "assets",
-                  theme.assets.static[key],
-                  ...parts
-                )
-              );
-            }
-          })
-        );
-        Promise.all(promises).then(() => {
-          if (!sent) res.sendStatus(404);
-        });
-      } else {
-        res.sendStatus(404);
-      }
+  private serveAsset(path: string) {
+    return (req: Request, res: Response) => {
+      res.sendFile(path);
     };
   }
 
-  private registerStaticPath(path: string, destination: string): void {
-    this.app.use(path, express.static(destination));
+  private async registerThemePaths() {
+    const theme = this.theme();
+    const baseDir = this.join(
+      this.path("web"),
+      "themes",
+      theme.dirName,
+      "assets"
+    );
+    const baseUrl = "/static/theme";
+
+    const stylesDir = path.join(baseDir, theme.assets.styles._base);
+    const stylesUrl = baseUrl + "/styles/";
+
+    const scriptsDir = path.join(baseDir, theme.assets.scripts._base);
+    const scriptsUrl = baseUrl + "/scripts/";
+
+    const imagesDir = path.join(baseDir, theme.assets.images._base);
+    const imagesUrl = baseUrl + "/images/";
+
+    const core = this;
+
+    async function register(what: string, rootUrl: string, rootDir: string) {
+      return forEachPromise(Object.keys(theme.assets[what]), key => {
+        const dest = theme.assets[what][key].replace(/(\\)/g, "/");
+        core.router.get(
+          rootUrl + dest,
+          core.serveAsset(core.join(rootDir, dest))
+        );
+      });
+    }
+
+    return Promise.all([
+      register("styles", stylesUrl, stylesDir),
+      register("scripts", scriptsUrl, scriptsDir),
+      register("images", imagesUrl, imagesDir)
+    ]);
   }
 
   public path(pathName: string): string | null {

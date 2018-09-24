@@ -20,6 +20,9 @@ export default class Themes {
       },
       images: {
         _base: "img/"
+      },
+      fonts: {
+        _base: "font/"
       }
     }
   };

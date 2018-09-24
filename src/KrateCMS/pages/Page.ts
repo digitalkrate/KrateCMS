@@ -1,17 +1,15 @@
-import { Request, Response } from "express";
-
 import { Core, RenderEngine, Theme } from "kratecms";
-import { EventEmitter, Pages } from "kratecms/events";
+import { Pages } from "kratecms/events";
 import { MetaItem } from "kratecms/interfaces";
 import { Pug } from "kratecms/render-engines";
+import { Request, Response } from "kratecms/server";
 
 export default class Page {
   public engine: RenderEngine;
 
   protected locals: any = {};
 
-  // TODO: Make enum{'public'|'admin'}
-  protected type: string = "public";
+  protected type: "public" | "admin" = "public";
   protected theme: Theme;
   protected view: string;
 
@@ -20,26 +18,26 @@ export default class Page {
   protected styles: string[] = [];
   protected scripts: string[] = [];
 
-  protected req: any;
-  protected res: any;
+  protected req: Request;
+  protected res: Response;
 
   constructor(req: Request, res: Response) {
     this.req = req;
-    // this.res = new Response(res);
     this.res = res;
+
     this.theme = Core.theme();
     this.engine = new Pug(this.theme);
 
     const initResponse = this.init();
 
-    if (initResponse === undefined || !!initResponse)
-      this.compile(this.req, this.res, this.locals);
+    if (initResponse === undefined || !!initResponse) this.compile(this.locals);
   }
 
-  private async compile(req: Request, res: Response, locals: Object = {}) {
-    await this.emitWait("render", this);
-    res.send(this.engine.compile(this.page(this.view), locals));
-    this.emit("rendered");
+  private compile(locals: Object = {}) {
+    this.emitWait("render", this).then(() => {
+      this.res.send(this.engine.compile(this.page(this.view), locals));
+      this.emit("rendered");
+    });
   }
 
   protected page(page: string): string {
