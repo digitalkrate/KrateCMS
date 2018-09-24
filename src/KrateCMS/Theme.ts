@@ -1,5 +1,4 @@
 import { ThemeManifest } from "kratecms/interfaces";
-import { forEachPromise } from "kratecms/utils";
 import { EventEmitter } from "kratecms/events";
 
 export default class Theme extends EventEmitter {
@@ -30,16 +29,15 @@ export default class Theme extends EventEmitter {
     delete this.locals.styles._base;
     delete this.locals.scripts._base;
     delete this.locals.images._base;
+    delete this.locals.fonts._base;
 
-    this.absoluteify(
-      this.locals.styles,
-      this.locals.scripts,
-      this.locals.images
-    );
-    console.log(this.locals);
+    this.absoluteify("styles", this.locals.styles);
+    this.absoluteify("scripts", this.locals.scripts);
+    this.absoluteify("images", this.locals.images);
+    this.absoluteify("fonts", this.locals.fonts);
   }
 
-  private absoluteify(...assets) {
+  private absoluteify(prefix: string, ...assets) {
     assets.forEach(async asset => {
       Object.keys(asset).forEach(async key => {
         if (
@@ -51,7 +49,8 @@ export default class Theme extends EventEmitter {
         }
 
         asset[key] =
-          "/static/theme" +
+          "/static/theme/" +
+          prefix +
           (asset[key].startsWith("/") ? "" : "/") +
           asset[key];
       });

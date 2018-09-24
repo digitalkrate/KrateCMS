@@ -22,15 +22,12 @@
 			"kratecms/interfaces": ["src/KrateCMS/interfaces"],
 			"kratecms/render-engines": ["src/KrateCMS/render-engines"],
 			"kratecms/pages": ["src/KrateCMS/pages"],
+			"kratecms/server": ["src/KrateCMS/server"],
 			"kratecms/utils": ["src/KrateCMS/utils"],
 			"kratecms": ["src/KrateCMS"]
 		}
 	},
-	"include": [
-    "src/**/*.ts"
-	],
 	"exclude": [
-    "node_modules/**/*",
-    "tests/**/*"
+    "node_modules/**/*"
   ]
 }

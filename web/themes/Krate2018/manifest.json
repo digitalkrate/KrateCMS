@@ -25,9 +25,11 @@
 			"admin": "admin/admin.js",
 			"setup": "admin/setup.js"
 		},
-		"static": {
-			"img": "images/",
-			"font": "font/"
+		"images": {
+			"_base": "images/"
+		},
+		"fonts": {
+			"_base": "font/"
 		}
 	}
 }
