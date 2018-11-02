@@ -1,6 +1,5 @@
-.idea/
-node_modules/
-coverage/
+.idea
+node_modules
+coverage
 src/KrateCMS/settings.meta
-
 mdb.pro.*
