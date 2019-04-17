@@ -2,7 +2,7 @@
 Aims to be a lightning fast and ultra lightweight, fully featured CMS written in Node.js
 
 ---
-Copyright 2019 Bradley Watton
+Copyright 2018
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this software or part-thereof except in compliance with the License.
