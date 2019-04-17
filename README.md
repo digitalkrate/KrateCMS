@@ -2,7 +2,7 @@
 Aims to be a lightning fast and ultra lightweight, fully featured CMS written in Node.js
 
 ---
-Copyright 2018 Digital Krate Ltd
+Copyright 2019 Bradley Watton
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this software or part-thereof except in compliance with the License.
